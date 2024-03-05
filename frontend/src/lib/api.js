@@ -1,11 +1,11 @@
 const fastapi = (operation, url, params, success_callback, failure_callback) => {
     let method = operation
     let content_type = 'application/json'
-    let body = JSON.stringify(params)
+    let body = JSON.stringify(params) // json형식의 데이터로 변환해주는 메소드
 
     let _url = import.meta.env.VITE_SERVER_URL+url
     if(method === 'get') {
-        _url += "?" + new URLSearchParams(params)
+        _url += "?" + new URLSearchParams(params) // 자바크스립트 내장함수. parameters를 get형식 url로 만들어줌
     }
 
     let options = {

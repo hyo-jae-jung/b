@@ -1,10 +1,8 @@
 <script>
     import fastapi from "../lib/api"
 
-    export let params = {} // 어디서 티어나오는지 모르겠다.
+    export let params = {} // Detail 컴포넌트 호출 시 가변적인 파라미터 값을 읽기 위한 변수 선언
     let question_id = params.question_id
-    console.log(params)
-    console.log('question_id:'+question_id)
     let question = {}
 
     function get_question() {

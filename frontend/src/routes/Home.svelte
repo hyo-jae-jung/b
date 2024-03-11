@@ -1,6 +1,6 @@
 <script>
     import fastapi from "../lib/api";
-    import { link } from 'svelte-spa-router' //Svelte SPA Router의 기능을 가져오기
+    import { link } from 'svelte-spa-router' // 해시 기반 라우팅하려고 link 가져옴
     import { page } from "../lib/store"
     import moment from 'moment/min/moment-with-locales'
     moment.locale('ko')

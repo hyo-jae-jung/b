@@ -1,10 +1,10 @@
 <script>
     import fastapi from "../lib/api";
     import { link } from 'svelte-spa-router' // 해시 기반 라우팅하려고 link 가져옴
-    import { page } from "../lib/store"
+    import { page,access_token, username, is_login } from "../lib/store"
     import moment from 'moment/min/moment-with-locales'
     moment.locale('ko')
-
+    console.log($page, $access_token, $username, $is_login)
     let question_list = []
     let size = 10
     let total = 0

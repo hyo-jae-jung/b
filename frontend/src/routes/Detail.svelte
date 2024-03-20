@@ -8,7 +8,7 @@
 
     export let params = {} // Detail 컴포넌트 호출 시 가변적인 파라미터 값을 읽기 위한 변수 선언
     let question_id = params.question_id
-    let question = {answers:[]}
+    let question = {answers:[], voter:[]}
     let content = ""
     let error = {detail:[]}
     function get_question() {
@@ -70,7 +70,38 @@
             )
         }
     }
-
+    function vote_question(_question_id) {
+        if(window.confirm('정말로 추천하시겠습니까?')) {
+            let url = "/api/question/vote"
+            let params = {
+                question_id: _question_id 
+            }
+            fastapi('post', url, params,
+                (json) => {
+                    get_question()
+                },
+                (err_json) => {
+                    error = err_json
+                }
+            )
+        }
+    }
+    function vote_answer(answer_id) {
+        if(window.confirm('정말로 추천하시겠습니까?')) {
+            let url = "/api/answer/vote"
+            let params = {
+                answer_id: answer_id
+            }
+            fastapi('post', url, params,
+                (json) => {
+                    get_question()
+                },
+                (err_json) => {
+                    error = err_json
+                }
+            )
+        }
+    }
 
 </script>
 
@@ -93,6 +124,11 @@
                 </div>
             </div>
             <div class="my-3">
+                <button class="btn btn-sm btn-outline-secondary"
+                    on:click="{vote_question(question.id)}">
+                    추천 
+                    <span class="badge rounded-pill bg-success">{question.voter.length}</span>
+                </button>
                 {#if question.user && $username === question.user.username }
                 <a use:link href="/question-modify/{question.id}"
                     class="btn btn-sm btn-outline-secondary">수정</a>
@@ -122,6 +158,11 @@
                 </div>
             </div>
             <div class="my-3">
+                <button class="btn btn-sm btn-outline-secondary"
+                    on:click="{vote_answer(answer.id)}">
+                    추천
+                    <span class="badge rounded-pill bg-success">{ answer.voter.length }</span>
+                </button>
                 {#if answer.user && $username === answer.user.username }
                 <a use:link href="/answer-modify/{answer.id}"
                     class="btn btn-sm btn-outline-secondary">수정</a>
@@ -143,26 +184,3 @@
         <input type="submit" value="답변등록" class="btn btn-primary {$is_login ? '' : 'disabled'}" on:click="{post_answer}" />
     </form>
 </div>
-<!-- <h1>{question.subject}</h1>
-<div>
-    {question.content}
-</div>
-<ul>
-    {#each question.answers as answer}
-        <li>{answer.content}</li>
-    {/each}
-</ul>
-<Error error={error} />
-<form method="post">
-    <textarea rows="15" bind:value={content}></textarea>
-    <input type="submit" value="답변등록" on:click="{post_answer}">
-</form>
-
-<style>
-    textarea {
-        width:100%
-    }
-    input[type=submit] {
-        margin-top:10px;
-    }
-</style> -->
